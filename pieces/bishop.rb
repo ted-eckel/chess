@@ -7,4 +7,8 @@ class Bishop < SlidingPiece
   def moves
     super(:diagonal)
   end
+
+  def dup(new_board)
+    Bishop.new(new_board,@color)
+  end
 end

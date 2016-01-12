@@ -7,4 +7,8 @@ class Rook < SlidingPiece
   def moves
     super(:horizontal, :vertical)
   end
+
+  def dup(new_board)
+    Rook.new(new_board,@color)
+  end
 end

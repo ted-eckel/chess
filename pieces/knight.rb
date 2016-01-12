@@ -16,4 +16,8 @@ class Knight < Piece
       in_bounds?(position) && (@board[position].is_a?(Null) || @board[position].enemy?(@color))
     end
   end
+
+  def dup(new_board)
+    Knight.new(new_board,@color)
+  end
 end

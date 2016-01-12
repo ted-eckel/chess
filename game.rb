@@ -27,6 +27,8 @@ class Game
           @last_cursor_pos = cursor_pos
         end
       end
+      @display.message = "Black in check" if @board.in_check?(:black)
+      @display.message = "White in check" if @board.in_check?(:white)
     end
   end
 end

@@ -4,9 +4,9 @@ require_relative 'pieces/pawn'
 class Board
   attr_reader :rows
 
-  def initialize
+  def initialize(do_populate = true)
     @rows = Array.new(8) { Array.new(8){ Null.new(self)}}
-    populate
+    populate if do_populate
   end
 
   def populate
@@ -36,6 +36,16 @@ class Board
     pieces
   end
 
+  def dup
+    duped_board = Board.new(false)
+    @rows.each_with_index do |row,row_i|
+      row.each_with_index do |board_piece,col_i|
+        duped_board[row_i,col_i] = board_piece.dup(duped_board)
+      end
+    end
+    duped_board
+  end
+
   def populate_pawns
     @rows[1].length.times do |idx|
       @rows[1][idx] = Pawn.new(self,:black)
@@ -58,6 +68,20 @@ class Board
       end
     end
     nil
+  end
+
+  def in_check?(color)
+    @rows.each do |row|
+      row.each do |piece|
+        if piece.enemy?(color)
+          possible_moves = piece.moves
+          possible_moves.each do |pos|
+            return true if self[pos].is_a?(King)
+          end
+        end
+      end
+    end
+    return false
   end
 
   def in_bounds?(pos)

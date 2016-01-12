@@ -7,4 +7,8 @@ class Queen < SlidingPiece
   def moves
     super(:horizontal, :vertical, :diagonal)
   end
+
+  def dup(new_board)
+    Queen.new(new_board,@color)
+  end
 end

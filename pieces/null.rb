@@ -6,4 +6,8 @@ class Null < Piece
   def moves
     raise "Can't move from here"
   end
+
+  def dup(new_board)
+    Null.new(new_board,@color)
+  end
 end

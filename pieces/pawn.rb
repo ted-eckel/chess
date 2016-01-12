@@ -36,4 +36,8 @@ class Pawn < Piece
     return " ♙ " if @color == :white
     return " ♟ " if @color == :black
   end
+
+  def dup(new_board)
+    Pawn.new(new_board,@color)
+  end
 end
