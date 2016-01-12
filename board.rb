@@ -40,10 +40,28 @@ class Board
     duped_board = Board.new(false)
     @rows.each_with_index do |row,row_i|
       row.each_with_index do |board_piece,col_i|
-        duped_board[row_i,col_i] = board_piece.dup(duped_board)
+        duped_board[[row_i,col_i]] = board_piece.dup(duped_board)
       end
     end
     duped_board
+  end
+
+  def valid_move?(start_pos,end_pos)
+    piece = self[start_pos]
+    potential_moves = piece.moves
+
+    unless potential_moves.include?(end_pos)
+      raise InvalidMoveError.new("Can't move there!")
+      return false
+    end
+
+    potential_board = self.dup
+    potential_board[start_pos].move!(start_pos,end_pos)
+
+    if potential_board.in_check?(piece.color)
+      raise InvalidMoveError.new("That would put you in check.")
+    end
+    true
   end
 
   def populate_pawns
@@ -82,6 +100,9 @@ class Board
       end
     end
     return false
+  end
+
+  def checkmate?(color)
   end
 
   def in_bounds?(pos)
