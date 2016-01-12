@@ -9,10 +9,6 @@ class Board
     populate
   end
 
-  def move(start,end_pos)
-
-  end
-
   def populate
     populate_pawns
     populate_black
@@ -29,24 +25,24 @@ class Board
 
   def populate_color(color)
     pieces = []
-    pieces << Rook.new(@board,color)
-    pieces << Knight.new(@board,color)
-    pieces << Bishop.new(@board,color)
-    pieces << Queen.new(@board,color)
-    pieces << King.new(@board,color)
-    pieces << Bishop.new(@board,color)
-    pieces << Knight.new(@board,color)
-    pieces << Rook.new(@board,color)
+    pieces << Rook.new(self,color)
+    pieces << Knight.new(self,color)
+    pieces << Bishop.new(self,color)
+    pieces << Queen.new(self,color)
+    pieces << King.new(self,color)
+    pieces << Bishop.new(self,color)
+    pieces << Knight.new(self,color)
+    pieces << Rook.new(self,color)
     pieces
   end
 
   def populate_pawns
     @rows[1].length.times do |idx|
-      @rows[1][idx] = Pawn.new(@board,:black)
+      @rows[1][idx] = Pawn.new(self,:black)
     end
 
     @rows[6].length.times do |idx|
-      @rows[6][idx] = Pawn.new(@board,:white)
+      @rows[6][idx] = Pawn.new(self,:white)
     end
   end
 
@@ -54,6 +50,15 @@ class Board
   #   x, y = pos
   #   @rows[x][y] = Piece.new
   # end
+
+  def find_piece(piece)
+    @rows.each_with_index do |row,row_i|
+      row.each_with_index do |board_piece,col_i|
+        return [row_i,col_i] if board_piece == piece
+      end
+    end
+    nil
+  end
 
   def in_bounds?(pos)
     pos.all? { |x| x.between?(0, 8) }

@@ -4,8 +4,7 @@ class Rook < SlidingPiece
     return " ♜ " if @color == :black
   end
 
-  def moves(pos)
-    p super.class
-    # super.moves(pos, :horizontal, :vertical)
+  def moves
+    super(:horizontal, :vertical)
   end
 end

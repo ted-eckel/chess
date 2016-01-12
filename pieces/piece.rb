@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Piece
   attr_reader :color
   def initialize(board, color = nil)
@@ -7,6 +9,13 @@ class Piece
 
   def to_s
     "   "
+  end
+
+  def move!(start,end_pos)
+    p start
+    p end_pos
+    @board[start] = Null.new(@board)
+    @board[end_pos] = self
   end
 
   def enemy_at?(pos)
@@ -23,15 +32,19 @@ class Piece
     false
   end
 
-  def blocked?(pos)
-    return true unless pos[0].between?(0,7) && pos[1].between?(0,7)
-    return true unless @board[pos].is_a?(Null)
-    false
+  def in_bounds?(pos)
+    pos[0].between?(0,7) && pos[1].between?(0,7)
+  end
+
+  def apply_dir(pos,dir)
+    [pos[0] + dir[0], pos[1] + dir[1]]
   end
 end
 
 class SlidingPiece < Piece
-  def moves(start_pos, *directions)
+  def moves(*directions)
+    start_pos = @board.find_piece(self)
+    # debugger
     direction_hash = {
       diagonal: [[-1,1],[-1,-1],[1,1],[1,-1]],
       vertical: [[-1, 0], [1, 0]],
@@ -48,55 +61,18 @@ class SlidingPiece < Piece
     end.flatten(1)
   end
 
-  # def diagonal_moves(pos)
-  #   moves = []
-  #
-  #   diag_directions = [[-1,1],[-1,-1],[1,1],[1,-1]]
-  #   current_pos = pos
-  #   diag_directions.each do |dir|
-  #     while true
-  #       if blocked?(current_pos)
-  #         moves << current_pos if enemy_at?(current_pos)
-  #         break
-  #       else
-  #         moves << current_pos
-  #       end
-  #       current_pos[0] += dir[0]
-  #       current_pos[1] += dir[1]
-  #     end
-  #     current_pos = pos
-  #   end
-  #
-  #   moves
-  # end
-
-  def move_rec_helper(pos, direction, enemy_last)
-    return [] unless pos.all? { |c| c.between?(0,7) }
+  def move_rec_helper(pos, direction)
+    return [] unless in_bounds?(pos)
     p "Ally found at #{pos}" if ally?(@board[pos].color)
     return [] if ally?(@board[pos].color)
-    return [pos] if enemy_last
+    return [pos] if enemy?(@board[pos].color)
 
-    new_pos = [pos[0] + direction[0], pos[1] + direction[1]]
-    [pos] + move_rec_helper(new_pos, direction,@board[pos].enemy?(@color))
+    # new_pos = [pos[0] + direction[0], pos[1] + direction[1]]
+    new_pos = apply_dir(pos,direction)
+    [pos] + move_rec_helper(new_pos, direction)
   end
 
   def move_rec(pos, direction)
-    move_rec_helper(pos, direction, false) - [pos]
+    move_rec_helper(apply_dir(pos, direction), direction)
   end
-end
-
-# super.moves([0,0], :horizontal, :vertical)
-
-class SteppingPiece < Piece
-end
-
-module Horizontal
-  def horizontal_moves
-  end
-end
-
-module Vertical
-end
-
-module Diagonal
 end

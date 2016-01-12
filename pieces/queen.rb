@@ -4,7 +4,7 @@ class Queen < SlidingPiece
     return " ♛ " if @color == :black
   end
 
-  def moves(pos)
-    super(pos, :horizontal, :vertical, :diagonal)
+  def moves
+    super(:horizontal, :vertical, :diagonal)
   end
 end

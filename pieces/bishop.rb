@@ -4,7 +4,7 @@ class Bishop < SlidingPiece
     return " ♝ " if @color == :black
   end
 
-  def moves(pos)
-    super.moves(pos, :diagonal)
+  def moves
+    super(:diagonal)
   end
 end
