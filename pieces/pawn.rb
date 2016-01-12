@@ -21,11 +21,13 @@ class Pawn < Piece
         possible_moves << [-2,0]
       end
     end
-    capture_moves = capture_moves.map { |dir| apply_dir(start_pos,dir)}
-    possible_moves = possible_moves.map { |dir| apply_dir(start_pos,dir)}
+    capture_moves.map! { |dir| apply_dir(start_pos,dir)}
+    capture_moves.select! {|move| in_bounds?(move)}
+    possible_moves.map! { |dir| apply_dir(start_pos,dir)}
+    possible_moves.select! {|move| in_bounds?(move)}
 
-    all_moves = capture_moves.select { |move| in_bounds?(move) && @board[move].enemy?(self.color) }
-    all_moves += possible_moves.select { |move| in_bounds?(move) && @board[move].is_a?(Null) }
+    all_moves = capture_moves.select { |move| @board[move].enemy?(self.color) }
+    all_moves += possible_moves.select { |move| @board[move].is_a?(Null) }
     all_moves
   end
 
