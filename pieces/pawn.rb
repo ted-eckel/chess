@@ -9,17 +9,13 @@ class Pawn < Piece
     possible_moves = []
     capture_moves = []
     if @color == :black
-      possible_moves << [ 1,0]
+      possible_moves << [1,0]
       capture_moves.concat([[1, -1], [1, 1]])
-      if @first_move == true
-        possible_moves << [2,0]
-      end
+      possible_moves << [2,0] if @first_move == true
     elsif @color == :white
       possible_moves << [-1,0]
       capture_moves.concat([[-1, 1], [-1, -1]])
-      if @first_move == true
-        possible_moves << [-2,0]
-      end
+      possible_moves << [-2,0] if @first_move == true
     end
     capture_moves.map! { |dir| apply_dir(start_pos,dir)}
     capture_moves.select! {|move| in_bounds?(move)}
