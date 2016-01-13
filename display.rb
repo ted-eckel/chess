@@ -2,13 +2,13 @@ require "colorize"
 require_relative "cursorable"
 
 class Display
-  attr_accessor :message
+  attr_accessor :messages
   include Cursorable
 
   def initialize(board)
     @board = board
     @cursor_pos = [0, 0]
-    @message = ""
+    @messages = []
   end
 
   def build_grid
@@ -40,6 +40,6 @@ class Display
     puts "Fill the grid!"
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     build_grid.each { |row| puts row.join }
-    p @message
+    puts @messages
   end
 end

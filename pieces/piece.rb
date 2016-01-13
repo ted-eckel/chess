@@ -63,7 +63,7 @@ class SlidingPiece < Piece
 
   def move_rec_helper(pos, direction)
     return [] unless in_bounds?(pos)
-    p "Ally found at #{pos}" if ally?(@board[pos].color)
+    # p "Ally found at #{pos}" if ally?(@board[pos].color)
     return [] if ally?(@board[pos].color)
     return [pos] if enemy?(@board[pos].color)
 
