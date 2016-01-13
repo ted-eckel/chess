@@ -23,6 +23,7 @@ class Game
       # puts "#{@current_player}'s turn."
       cursor_start = get_next_cursor_pos
       current_piece = @board[cursor_start]
+      @board.highlight_moves(current_piece)
       if current_piece.enemy?(@current_player)
         raise WrongTurnError.new("It's #{@current_player}'s turn.")
       end
@@ -32,7 +33,7 @@ class Game
 
       cursor_end = get_next_cursor_pos
       @board.try_move(cursor_start,cursor_end)
-
+      @board.remove_highlight
 
       @display.messages << "Black in check" if @board.in_check?(:black)
       @display.messages << "White in check" if @board.in_check?(:white)
@@ -41,9 +42,11 @@ class Game
 
     rescue WrongTurnError => e
       @display.messages << e.message
+      @board.remove_highlight
       retry
     rescue InvalidMoveError => e
       @display.messages << e.message
+      @board.remove_highlight
       retry
     end
   end

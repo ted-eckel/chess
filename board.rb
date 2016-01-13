@@ -2,10 +2,12 @@ require_relative 'pieces/piece'
 require_relative 'pieces/pawn'
 
 class Board
-  attr_reader :rows
+  attr_reader :rows, :white_graveyard, :black_graveyard
 
   def initialize(do_populate = true)
     @rows = Array.new(8) { Array.new(8){ Null.new(self)}}
+    @white_graveyard = []
+    @black_graveyard = []
     populate if do_populate
   end
 
@@ -76,7 +78,13 @@ class Board
   end
 
   def move!(start_pos,end_pos)
+    dead_piece = self[end_pos]
+    unless dead_piece.is_a?(Null)
+      white_graveyard << dead_piece if dead_piece.color == :white
+      black_graveyard << dead_piece if dead_piece.color == :black
+    end
     self[start_pos].move!(start_pos,end_pos)
+
   end
 
   def populate_pawns
@@ -148,7 +156,7 @@ class Board
   def highlight_moves(piece)
     possible_moves = piece.moves
     possible_moves.each do |pos|
-      find_piece(piece).highlighted = true
+      self[pos].highlighted = true
     end
   end
 
