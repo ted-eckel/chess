@@ -145,6 +145,20 @@ class Board
   #   end
   # end
 
+  def highlight_moves(piece)
+    possible_moves = piece.moves
+    possible_moves.each do |pos|
+      find_piece(piece).highlighted = true
+    end
+  end
+
+  def remove_highlight
+    @rows.each do |row|
+      row.each do |piece|
+        piece.highlighted = false
+      end
+    end
+  end
   def [](pos)
     x, y = pos
     @rows[x][y]

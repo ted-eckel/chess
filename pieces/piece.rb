@@ -1,10 +1,16 @@
 require 'byebug'
 
 class Piece
+  attr_accessor :highlighted
   attr_reader :color
   def initialize(board, color = nil)
     @board = board
     @color = color
+    @highlighted = false
+  end
+
+  def highlighted?
+    @highlighted
   end
 
   def to_s
