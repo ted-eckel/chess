@@ -46,22 +46,37 @@ class Board
     duped_board
   end
 
-  def valid_move?(start_pos,end_pos)
+  def valid_move?(start_pos,end_pos,called_by_checkmate = false)
     piece = self[start_pos]
     potential_moves = piece.moves
 
+    if piece.is_a?(Null)
+      raise InvalidMoveError.new("Can't move from here.") unless called_by_checkmate
+    end
+
     unless potential_moves.include?(end_pos)
-      raise InvalidMoveError.new("Can't move there!")
+      raise InvalidMoveError.new("Can't move there!") unless called_by_checkmate
       return false
     end
 
     potential_board = self.dup
-    potential_board[start_pos].move!(start_pos,end_pos)
+    potential_board.move!(start_pos,end_pos)
 
     if potential_board.in_check?(piece.color)
-      raise InvalidMoveError.new("That would put you in check.")
+      raise InvalidMoveError.new("That would put you in check.") unless called_by_checkmate
+      return false
     end
     true
+  end
+
+  def try_move(start_pos,end_pos)
+    valid = valid_move?(start_pos,end_pos)
+    move!(start_pos,end_pos) if valid
+    return true if valid
+  end
+
+  def move!(start_pos,end_pos)
+    self[start_pos].move!(start_pos,end_pos)
   end
 
   def populate_pawns
@@ -103,10 +118,25 @@ class Board
   end
 
   def checkmate?(color)
+    if in_check?(color)
+      @rows.each do |row|
+        row.each do |piece|
+          if piece.ally?(color)
+            possible_moves = piece.moves
+            possible_moves.each do |pos|
+              return false if valid_move?(find_piece(piece), pos,true)
+            end
+          end
+        end
+      end
+      return true
+    else
+      return false
+    end
   end
 
   def in_bounds?(pos)
-    pos.all? { |x| x.between?(0, 8) }
+    pos.all? { |x| x.between?(0, 7) }
   end
 
   # def full?

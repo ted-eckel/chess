@@ -4,7 +4,8 @@ class Null < Piece
   end
 
   def moves
-    raise InvalidMoveError.new("Can't move from here.")
+    []
+    # raise InvalidMoveError.new("Can't move from here.")
   end
 
   def dup(new_board)
