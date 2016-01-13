@@ -2,12 +2,13 @@ require_relative 'pieces/piece'
 require_relative 'pieces/pawn'
 
 class Board
-  attr_reader :rows, :white_graveyard, :black_graveyard
+  attr_reader :rows, :white_graveyard, :black_graveyard, :reverse
 
   def initialize(do_populate = true)
     @rows = Array.new(8) { Array.new(8){ Null.new(self)}}
     @white_graveyard = []
     @black_graveyard = []
+    @reverse = false
     populate if do_populate
   end
 

@@ -71,6 +71,7 @@ class Game
       while true
         play_turn
         switch_player
+        @board.reverse = !@board.reverse
         @display.messages = []
       end
 
