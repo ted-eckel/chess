@@ -1,5 +1,3 @@
-require 'byebug'
-
 class Piece
   attr_accessor :highlighted
   attr_reader :color
