@@ -10,7 +10,6 @@ Written in Ruby, played in the command line
   * `cd ~/[insert desired download path here]`
   * `git clone https://github.com/ted-eckel/chess.git`
   * `cd chess`
-  * `bundle install`
   * `ruby game.rb`
 3. Use arrow keys to move the cursor, and 'space' or 'enter' to select and place pieces
 
