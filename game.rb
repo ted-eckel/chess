@@ -1,7 +1,7 @@
-require_relative 'display'
-require_relative 'board'
+require_relative 'logic/display'
+require_relative 'logic/board'
 require_relative "pieces/import_pieces"
-require_relative 'errors'
+require_relative 'logic/errors'
 
 
 
