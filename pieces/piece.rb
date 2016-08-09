@@ -16,8 +16,6 @@ class Piece
   end
 
   def move!(start,end_pos)
-    p start
-    p end_pos
     @board[start] = Null.new(@board)
     @board[end_pos] = self
   end
