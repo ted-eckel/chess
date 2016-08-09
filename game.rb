@@ -3,8 +3,6 @@ require_relative 'logic/board'
 require_relative "pieces/import_pieces"
 require_relative 'logic/errors'
 
-
-
 class Game
   def initialize
     @board = Board.new
@@ -20,7 +18,6 @@ class Game
       @display.messages = "Black is checkmated." if @board.checkmate?(:black)
       @display.messages = "White is checkmated." if @board.checkmate?(:white)
 
-      # puts "#{@current_player}'s turn."
       cursor_start = get_next_cursor_pos
       current_piece = @board[cursor_start]
       @board.highlight_moves(current_piece)

@@ -99,11 +99,6 @@ class Board
     end
   end
 
-  # def mark(pos)
-  #   x, y = pos
-  #   @rows[x][y] = Piece.new
-  # end
-
   def find_piece(piece)
     @rows.each_with_index do |row,row_i|
       row.each_with_index do |board_piece,col_i|
@@ -148,12 +143,6 @@ class Board
   def in_bounds?(pos)
     pos.all? { |x| x.between?(0, 7) }
   end
-
-  # def full?
-  #   @rows.all? do |row|
-  #     row.all? { |piece| piece.present? }
-  #   end
-  # end
 
   def highlight_moves(piece)
     possible_moves = piece.moves

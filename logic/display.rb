@@ -46,7 +46,6 @@ class Display
     puts "Black: " + @board.black_graveyard.join("")
     side_grid = %w[1 2 3 4 5 6 7 8].to_a
     current_grid = build_grid
-    # current_grid.reverse! if @board.reverse
 
     current_grid.each_with_index { |row,i| puts row.join + " " + side_grid[i] }
     bottom_grid = %w[a b c d e f g h].to_a

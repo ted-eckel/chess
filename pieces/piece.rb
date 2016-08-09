@@ -48,7 +48,7 @@ end
 class SlidingPiece < Piece
   def moves(*directions)
     start_pos = @board.find_piece(self)
-    # debugger
+
     direction_hash = {
       diagonal: [[-1,1],[-1,-1],[1,1],[1,-1]],
       vertical: [[-1, 0], [1, 0]],
@@ -67,11 +67,9 @@ class SlidingPiece < Piece
 
   def move_rec_helper(pos, direction)
     return [] unless in_bounds?(pos)
-    # p "Ally found at #{pos}" if ally?(@board[pos].color)
     return [] if ally?(@board[pos].color)
     return [pos] if enemy?(@board[pos].color)
 
-    # new_pos = [pos[0] + direction[0], pos[1] + direction[1]]
     new_pos = apply_dir(pos,direction)
     [pos] + move_rec_helper(new_pos, direction)
   end
