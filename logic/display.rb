@@ -44,7 +44,7 @@ class Display
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     puts "White: " + @board.white_graveyard.join("")
     puts "Black: " + @board.black_graveyard.join("")
-    side_grid = %w[1 2 3 4 5 6 7 8].to_a
+    side_grid = %w[8 7 6 5 4 3 2 1].to_a
     current_grid = build_grid
 
     current_grid.each_with_index { |row,i| puts row.join + " " + side_grid[i] }
