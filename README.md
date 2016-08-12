@@ -19,7 +19,31 @@ Written in Ruby, played in the command line
 * Displays potential moves when a piece is selected
 * colorize gem allows use of arrow keys for navigation
 
+## Some cool code
+```
+  if potential_board.in_check?(piece.color)
+    raise InvalidMoveError.new("That would put you in check.") unless called_by_checkmate
+    return false
+  end
+```
 
+This bit of logic, which is part of a method that checks to see if a move is valid, sees if a piece is in check or not, which is:
+
+```
+def in_check?(color)
+  @rows.each do |row|
+    row.each do |piece|
+      if piece.enemy?(color)
+        possible_moves = piece.moves
+        possible_moves.each do |pos|
+          return true if self[pos].is_a?(King)
+        end
+      end
+    end
+  end
+  return false
+end
+```
 
 
 [screenshot]: images/chess.jpg
